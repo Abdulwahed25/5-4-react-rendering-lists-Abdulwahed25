@@ -6,12 +6,15 @@ export default function CourseCard({ course, index, onMutateCourse }) {
   const [date, setDate] = useState("");
 
   function toggleTask(id) {
-    
+    onMutateCourse(index, tasks =>
+      tasks.map(t => t.id === id ? { ...t, isDone: !t.isDone } : t)
+    );
    
   }
 
   function deleteTask(id) {
-    
+    onMutateCourse(index, tasks => tasks.filter(t => t.id !== id));
+
   }
 
   function addTask(e) {
