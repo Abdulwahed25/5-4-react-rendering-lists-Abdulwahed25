@@ -7,29 +7,51 @@ export default function CourseCard({ course, index, onMutateCourse }) {
 
   function toggleTask(id) {
     onMutateCourse(index, tasks =>
-      tasks.map(t => t.id === id ? { ...t, isDone: !t.isDone } : t)
+      tasks.map(t => (t.id === id ? { ...t, isDone: !t.isDone } : t))
     );
-   
   }
 
   function deleteTask(id) {
     onMutateCourse(index, tasks => tasks.filter(t => t.id !== id));
-
   }
 
   function addTask(e) {
     e.preventDefault();
-   
+    if (!title.trim() || !date) return;
+
+    const newTask = {
+      id: Date.now(),
+      title,
+      dueDate: date,
+      isDone: false,
+    };
+
+    onMutateCourse(index, tasks => [...tasks, newTask]);
+    setTitle("");
+    setDate("");
   }
 
   return (
     <article className="course card">
       <header className="cardHeader">
         <h2>{course.title}</h2>
- 
       </header>
 
-    
+      <ul className="tasksList">
+        {course.tasks.length > 0 ? (
+          course.tasks.map(task => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              onToggle={toggleTask}
+              onDelete={deleteTask}
+            />
+          ))
+        ) : (
+          <p className="empty">All caught up!</p>
+        )}
+      </ul>
+
       <form onSubmit={addTask} className="newTask">
         <input
           className="titleField"
@@ -45,7 +67,9 @@ export default function CourseCard({ course, index, onMutateCourse }) {
             onChange={e => setDate(e.target.value)}
             aria-label="Due date"
           />
-          <button type="submit" className="primary">Add</button>
+          <button type="submit" className="primary">
+            Add
+          </button>
         </div>
       </form>
     </article>
