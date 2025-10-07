@@ -6,6 +6,7 @@ export default function CourseCard({ course, index, onMutateCourse }) {
   const [date, setDate] = useState("");
 
   function toggleTask(id) {
+    
    
   }
 
