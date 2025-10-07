@@ -16,7 +16,7 @@ export default function DueBadge({ dueDate }) {
   } else if (daysLeft === 0) {
     label = "Due today!";
   } else {
-    label = `Due in ${daysLeft} days`;
+    label = "Due in ${daysLeft} days";
   }
 
   return <span className="badge">{label}</span>;
